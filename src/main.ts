@@ -1,9 +1,18 @@
-import { createApp } from 'vue'
-import './style.css'
+import {createApp} from 'vue'
 import App from './App.vue'
-import Vant from 'vant'
-import 'vant/lib/vant-css/index.css'
+import * as VueRouter from 'vue-router';
+import routes from "./config/route";
+import Vant from 'vant';
+import 'vant/lib/index.css';
+import '../global.css'
 
-createApp(App)
-    .use(Vant)
-    .mount('#app')
+const app = createApp(App);
+app.use(Vant);
+
+const router = VueRouter.createRouter({
+    history: VueRouter.createWebHistory(),
+    routes,
+})
+
+app.use(router);
+app.mount('#app')
