@@ -39,6 +39,7 @@ const searchText = ref('');
 const originTagList = [{
   text: '性别',
   children: [
+    {text: '未知', id: '未知'},
     {text: '男', id: '男'},
     {text: '女', id: '女'},
   ],
@@ -98,7 +99,7 @@ const doClose = (tag) => {
  * 执行搜索
  */
 const doSearchResult = () => {
-  console.log(activeIds.value)
+  console.log("activeIds.value" + activeIds.value)
   router.push({
     path: '/user/list',
     query: {

@@ -3,7 +3,7 @@
     <van-form @submit="onSubmit">
       <van-cell-group inset>
 
-        <van-field name="uploader" label="队伍头像:">
+        <van-field name="uploader" label="头像:">
           <template #input>
             <van-uploader v-model="fileList" multiple :before-read="beforeRead" :after-read="afterRead"/>
           </template>

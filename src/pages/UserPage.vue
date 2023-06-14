@@ -13,7 +13,7 @@
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import {getCurrentUserState} from "../states/user";
 import {currentID} from "../states/currentID";

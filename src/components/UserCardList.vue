@@ -3,7 +3,7 @@
     <van-card
         :desc="user.profile"
         :title="`${user.username}`"
-        :thumb="user.avatarUrl"
+        :thumb="user.avatar"
     >
       <template #tags>
         <van-tag plain type="danger" v-for="tag in user.tags" style="margin-right: 8px; margin-top: 8px">
@@ -11,7 +11,7 @@
         </van-tag>
       </template>
       <template #footer >
-        <van-button size="mini"  @click="ToToken(user.avatarUrl,user.username)">联系我</van-button>
+        <van-button size="mini"  @click="ToToken(user.avatar,user.username)">联系我</van-button>
       </template>
     </van-card>
   </van-skeleton>
@@ -33,11 +33,11 @@ const props = withDefaults(defineProps<UserCardListProps>(), {
   userList: [] as UserType[],
 });
 
-const ToToken = (avatarUrl: any,username:any) => {
+const ToToken = (avatar: any,username:any) => {
   router.push({
     path: "/user/Token",
     query: {
-      avatarUrl,
+      avatar,
       username,
     }
   })

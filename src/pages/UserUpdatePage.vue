@@ -14,7 +14,6 @@
     <van-cell title="个人介绍" is-link to="/user/edit" :value="user.profile"
               @click="toEdit('profile', '个人介绍', user.profile)"/>
     <van-cell title="标签" is-link to="/user/edit/tag" :value="user.tags" @click="toUpdateTag"/>
-    <van-cell title="用户编号" :value="user.planetCode"/>
     <van-cell title="注册时间" :value="user.createTime"/>
 
   </template>
@@ -24,7 +23,7 @@
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {currentID} from "../states/currentID";
 
 const user = ref();

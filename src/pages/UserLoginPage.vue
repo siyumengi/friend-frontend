@@ -1,12 +1,12 @@
-  <template>
+<template>
   <van-form @submit="onSubmit">
     <van-cell-group inset>
 
       <van-image style="margin-left: 25%"
-          round
-          width="10rem"
-          height="10rem"
-          :src="logo"
+                 round
+                 width="10rem"
+                 height="10rem"
+                 :src="logo"
       />
 
       <van-field
@@ -35,18 +35,19 @@
   </van-form>
 
 
-  <van-button class="add-button" type="primary" icon="plus" @click="toAddUser" />
+  <van-button class="add-button" type="primary" icon="plus" @click="toAddUser"/>
 </template>
 
 <script setup lang="ts">
 import {useRoute, useRouter} from "vue-router";
 import {ref} from "vue";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import {getCurrentUserState, setCurrentUserState} from "../states/user";
 import {currentID, setcurrentID} from "../states/currentID";
 // import {setcurrentID} from "../states/currentID";
 import logo from '../assets/logo.png'
+
 const router = useRouter();
 const route = useRoute();
 const userAccount = ref('');
@@ -61,9 +62,9 @@ const onSubmit = async () => {
   if (res.code === 0 && res.data) {
     Toast.success('登录成功！');
     // 跳转到之前的页面
-    currentID.value=res.data.id;
-    console.log("res.data:"+ res.data)
-    const Rest = await myAxios.get('/user/current?id='+currentID.value);
+    currentID.value = res.data.id;
+    console.log("res.data:" + res.data)
+    const Rest = await myAxios.get('/user/current?id=' + currentID.value);
     // alert(Rest.data.userAccount)
     if (Rest.code === 0) {
       setCurrentUserState(Rest.data);
@@ -76,22 +77,22 @@ const onSubmit = async () => {
     Toast.fail('登录失败！');
   }
 };
-const toAddUser=()=>{
+const toAddUser = () => {
   window.location.href = `/user/register`;
 }
-const openForget=()=>{
+const openForget = () => {
   window.location.href = `/user/forget`;
 }
 </script>
 
 <style scoped>
- .float-right {
+.float-right {
   display: block;
   /*float: right;*/
   margin-left: 13px;
   overflow: hidden;
-   text-align: right;
-   margin-right: 10px;
+  text-align: right;
+  margin-right: 10px;
 }
 
 /* .float-right>span {*/

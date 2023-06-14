@@ -43,7 +43,7 @@
 
 
     <!--退出-->
-    <van-button square text="退出" type="warning" v-if="team.userId === currentUser?.id || hasJoin(team.id)" 
+    <van-button square text="退出" type="warning" v-if="team.userId === currentUser?.id || hasJoin(team.id)"
                   @click="doQuitTeam(team.id)" class="lr_btn"/>
     <!--解散-->
     <van-button square text="解散" type="danger" v-if="team.userId === currentUser?.id"
@@ -52,7 +52,7 @@
     <!--左滑-->
   <template #left>
     <!--更新-->
-    <van-button square type="success" text="更新" v-if="team.userId === currentUser?.id" 
+    <van-button square type="success" text="更新" v-if="team.userId === currentUser?.id"
                 @click="doUpdateTeam(team.id)" class="lr_btn"/>
    </template>
 
@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import {TeamType} from "../models/team";
 import {teamStatusEnum} from "../constants/team";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";

@@ -1,4 +1,4 @@
-<template> 
+<template>
   <!--没有左<的顶部-->
   <div v-show="$route.meta.navShow" class="login-container">
   <van-nav-bar
@@ -39,6 +39,7 @@
   <van-tabbar route @change="onChange">
     <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
     <van-tabbar-item to="/team" icon="search" name="team">队伍</van-tabbar-item>
+    <van-tabbar-item to="/post" icon="label-o" name="team">帖子</van-tabbar-item>
     <van-tabbar-item to="/user" icon="friends-o" name="user">个人</van-tabbar-item>
   </van-tabbar>
 </div>
@@ -50,7 +51,7 @@ import {ref} from "vue";
 import routes from "../config/route";
 
 const router = useRouter();
-const DEFAULT_TITLE = '伙伴匹配';
+const DEFAULT_TITLE = 'Friend';
 const title = ref(DEFAULT_TITLE);
 
 /**
@@ -70,7 +71,7 @@ const onClickLeft = () => {
 };
 
 
-/**点击搜索小图标 查找队友 
+/**点击搜索小图标 查找队友
 const onClickRight = () => {
   router.push('/search')
 };*/

@@ -1,11 +1,11 @@
 <template>
   <van-pull-refresh v-model="load" @refresh="onRefresh">
-    <van-cell center title="匹配模式">
-      <template #right-icon>
-        <van-switch v-model="isMatchMode" size="24"/>
-        <van-icon id="search" name="search" size="18" @click="toSearch"/>
-      </template>
-    </van-cell>
+<!--    <van-cell center title="匹配模式">-->
+<!--      <template #right-icon>-->
+<!--        <van-switch v-model="isMatchMode" size="24"/>-->
+<!--        <van-icon id="search" name="search" size="18" @click="toSearch"/>-->
+<!--      </template>-->
+<!--    </van-cell>-->
     <user-card-list :user-list="userList" :loading="loading"/>
     <van-empty v-if="!userList || userList.length < 1" description="数据为空"/>
   </van-pull-refresh>
@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import {onMounted, ref, watchEffect} from 'vue';
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import UserCardList from "../components/UserCardList.vue";
 import {UserType} from "../models/user";

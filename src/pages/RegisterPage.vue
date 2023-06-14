@@ -17,9 +17,9 @@
           :rules="[{ required: true, message: '请填写邮箱' }]"
       />
  <!--验证码+按钮-->
- <div style="float: left;left: 0px;"> 
+ <div style="float: left;left: 0px;">
         <div style="width: 80%;display: inline-block">
-              <van-field 
+              <van-field
                 v-model="code"
                 name="验证码"
                 label="验证码"
@@ -27,7 +27,7 @@
                 :rules="[{ required: true, message: '请填写验证码' }]"
             />
         </div>
-        <van-button  type="success" @click="sendMessage" 
+        <van-button  type="success" @click="sendMessage"
                      style="width: auto;display: inline-block;">
           发送</van-button>
       </div>
@@ -60,7 +60,7 @@
 <script setup  lang="ts">
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 const router = useRouter()
 const username = ref('');
 const userEmail = ref('');

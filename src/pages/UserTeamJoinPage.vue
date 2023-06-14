@@ -11,7 +11,7 @@
 import {useRouter} from "vue-router";
 import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import {currentID} from "../states/currentID";
 

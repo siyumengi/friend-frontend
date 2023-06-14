@@ -12,17 +12,17 @@
     </template>
     <template #footer>
       <van-button size="mini">联系我</van-button>
-    </template>
-  </van-card>
-  <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
-</template>
+      </template>
+    </van-card>
+    <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
+  </template>
 
-<script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {useRoute} from "vue-router";
-import myAxios from "../plugins/myAxios";
-import {Toast} from "vant";
-import qs from 'qs';
+  <script setup lang="ts">
+  import {onMounted, ref} from 'vue';
+  import {useRoute} from "vue-router";
+  import myAxios from "../config/myAxios";
+  import {Toast} from "vant";
+  import qs from 'qs';
 
 const route = useRoute();
 const {tags} = route.query;

@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import {useRoute, useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import {Toast} from "vant";
 import {getCurrentUser} from "../services/user";
 
@@ -32,11 +32,11 @@ let tag;
 const route = useRoute();
 const router = useRouter();
 
-onMounted(()=>{
-  if (editUser.value.currentValue==="1"){
-    editUser.value.currentValue="男";
-  }else if (editUser.value.currentValue==="0") {
-    editUser.value.currentValue="女";
+onMounted(() => {
+  if (editUser.value.currentValue === "1") {
+    editUser.value.currentValue = "男";
+  } else if (editUser.value.currentValue === "0") {
+    editUser.value.currentValue = "女";
   }
 })
 
@@ -48,34 +48,37 @@ const editUser = ref({
 console.log(editUser.value.editKey)
 const onSubmit = async () => {
   const currentUser = await getCurrentUser();
-  console.log(editUser.value)
   if (!currentUser) {
     Toast.fail('用户未登录');
     return;
   }
-  console.log(currentUser, '当前用户')
-  if (editUser.value.editKey==="gender"){
-    if (editUser.value.currentValue==="男"){
-      editUser.value.currentValue="1";
-    }else if (editUser.value.currentValue==="女") {
-      editUser.value.currentValue="0";
+  console.log("当前用户：" + currentUser);
+  if (editUser.value.editKey === "gender") {
+    if (editUser.value.currentValue === "男") {
+      editUser.value.currentValue = "1";
+    } else if (editUser.value.currentValue === "女") {
+      editUser.value.currentValue = "0";
     }
   }
 
-  if (editUser.value.editKey==="phone"){
-    if (editUser.value.currentValue?.length!==11){
+  if (editUser.value.editKey === "phone") {
+    if (editUser.value.currentValue?.length !== 11) {
       Toast.fail('电话长度应为11位!');
       return;
     }
   }
-
-  const res = await myAxios.post('/user/update?currentId', {
-    'currentId': currentUser.id,
-    [editUser.value.editKey as string]: editUser.value.currentValue,
-  })
-  console.log(editUser.value.currentValue)
-  console.log(res, '更新请求');
-  console.log(res)
+  const currentId = currentUser.id;
+  const userUpdateRequest = {
+    ...currentUser,
+    [editUser.value.editKey as string]: editUser.value.currentValue
+  }
+  console.log("userUpdateRequestL:" + userUpdateRequest)
+  const bd = {
+    currentId,
+    ...userUpdateRequest
+  }
+  console.log("bd:" + bd)
+  const res = await myAxios.post(`/user/update?currentId=${currentId}`, bd)
   if (res.code === 0 && res.data > 0) {
     Toast.success('修改成功');
     router.back();
@@ -117,7 +120,7 @@ const afterRead = (file: any) => {
     });
   };
   ImgUploadFile(file.file)
-  editUser.value.currentValue =  "http://ru5ziixua.hd-bkt.clouddn.com/"+ file.file.name;
+  editUser.value.currentValue = "http://ru5ziixua.hd-bkt.clouddn.com/" + file.file.name;
 }
 
 

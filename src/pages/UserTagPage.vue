@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import {onMounted, ref, defineComponent, reactive} from "vue";
 import {Toast} from "vant";
-import myAxios from "../plugins/myAxios";
+import myAxios from "../config/myAxios";
 import qs from "qs";
 import {getCurrentUser} from "../services/user";
 import {currentID} from "../states/currentID";
