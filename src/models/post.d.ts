@@ -71,5 +71,6 @@ export type PostType = {
      *
      */
     updateTime: Date;
+    imageUrl: string;
 
 }

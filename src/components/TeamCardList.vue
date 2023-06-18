@@ -2,63 +2,64 @@
   <div
       id="teamCardList"
   >
-  <van-swipe-cell v-for="team in props.teamList"  style="margin-top: 10px;margin-bottom: 10px;height: auto;">
-    <!--内容-->
-    <van-card :thumb="team.avatarUrl" :desc="team.description" :title="`${team.name}`"
-              class="goods-card">
+    <van-swipe-cell v-for="team in props.teamList" style="margin-top: 10px;margin-bottom: 10px;height: auto;">
+      <!--内容-->
+      <van-card :thumb="team.avatarUrl" :desc="team.description" :title="`${team.name}`"
+                class="goods-card">
         <!--tag-->
         <template #tags>
-        <van-tag mark type="danger" style="margin-right: 8px; margin-top: 8px">
-          {{
-            teamStatusEnum[team.status]
-          }}
-        </van-tag>
+          <van-tag mark type="danger" style="margin-right: 8px; margin-top: 8px">
+            {{
+              teamStatusEnum[team.status]
+            }}
+          </van-tag>
+        </template>
+        <template #bottom>
+          <div>
+            <span class="sp_font">队伍人数</span>
+            {{ `: ${team.userVOS.length}/${team.maxNum}` }}
+          </div>
+          <div v-if="team.expireTime">
+            <span class="sp_font">过期时间</span>
+            {{ ': ' + team.expireTime.substring(0, 19).replace("T", " ") }}
+          </div>
+          <div>
+            <span class="sp_font">创建时间</span>
+            {{ ': ' + team.createTime.substring(0, 19).replace("T", " ") }}
+          </div>
+        </template>
+        <template #footer>
+          <!--查看-->
+          <van-button size="mini" text="查看" type="primary"
+                      @click="getCurrentUserList(team.userVOS)"
+                      custom-style="btn"/>
+        </template>
+      </van-card>
+      <!--右滑-->
+      <template #right>
+        <!--加入-->
+        <van-button square text="加入" type="primary" v-if="team.userId !== currentUser?.id &&!team.hasJoin "
+                    @click="preJoinTeam(team)" class="lr_btn"/>
+
+
+        <!--退出-->
+        <van-button square text="退出" type="warning" v-if="team.userId === currentUser?.id || hasJoin(team.id)"
+                    @click="doQuitTeam(team.id)" class="lr_btn"/>
+        <!--解散-->
+        <van-button square text="解散" type="danger" v-if="team.userId === currentUser?.id"
+                    @click="doDeleteTeam(team.id)" class="lr_btn"/>
       </template>
-      <template #bottom>
-        <div>
-          <span class="sp_font">队伍人数</span>
-          {{ `: ${team.userVOS.length}/${team.maxNum}` }}
-        </div>
-        <div v-if="team.expireTime">
-          <span class="sp_font">过期时间</span>
-          {{ ': ' + team.expireTime.substring(0, 19).replace("T"," ") }}
-        </div>
-        <div>
-          <span class="sp_font">创建时间</span>
-          {{ ': ' + team.createTime.substring(0, 19).replace("T"," ") }}
-        </div>
+      <!--左滑-->
+      <template #left>
+        <!--更新-->
+        <van-button square type="success" text="更新" v-if="team.userId === currentUser?.id"
+                    @click="doUpdateTeam(team.id)" class="lr_btn"/>
       </template>
-      <template #footer>
-      <!--查看-->
-      <van-button size="mini" text="查看" type="primary"
-                    @click="getCurrentUserList(team.userVOS)"
-                    custom-style="btn"/>
-    </template>
-    </van-card>
-    <!--右滑-->
-  <template #right>
-    <!--加入-->
-    <van-button square text="加入" type="primary" v-if="team.userId !== currentUser?.id &&!team.hasJoin "
-                  @click="preJoinTeam(team)" class="lr_btn"/>
 
-
-    <!--退出-->
-    <van-button square text="退出" type="warning" v-if="team.userId === currentUser?.id || hasJoin(team.id)"
-                  @click="doQuitTeam(team.id)" class="lr_btn"/>
-    <!--解散-->
-    <van-button square text="解散" type="danger" v-if="team.userId === currentUser?.id"
-                @click="doDeleteTeam(team.id)" class="lr_btn"/>
-  </template>
-    <!--左滑-->
-  <template #left>
-    <!--更新-->
-    <van-button square type="success" text="更新" v-if="team.userId === currentUser?.id"
-                @click="doUpdateTeam(team.id)" class="lr_btn"/>
-   </template>
-
-  </van-swipe-cell>
+    </van-swipe-cell>
   </div>
-  <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+  <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam"
+              @cancel="doJoinCancel">
     <van-field v-model="password" placeholder="请输入密码"/>
   </van-dialog>
 </template>
@@ -72,7 +73,7 @@ import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
 import {useRouter} from "vue-router";
 import {UserType} from "../models/user";
-import ikun from  "../assets/ikun.png"
+import ikun from "../assets/ikun.png"
 import {currentID} from "../states/currentID";
 
 interface TeamCardListProps {
@@ -131,7 +132,7 @@ const doJoinTeam = async () => {
     return;
   }
   const res = await myAxios.post('/team/join', {
-    currentId:currentID.value,
+    currentId: currentID.value,
     teamId: joinTeamId.value,
     password: password.value
   });
@@ -174,7 +175,7 @@ const doUpdateTeam = (id: number) => {
  */
 const doQuitTeam = async (id: number) => {
   const res = await myAxios.post('/team/quit', {
-    currentId:currentID.value,
+    currentId: currentID.value,
     teamId: id
   });
   if (res?.code === 0) {
@@ -190,11 +191,17 @@ const doQuitTeam = async (id: number) => {
  */
 const doDeleteTeam = async (id: number) => {
   const res = await myAxios.post('/team/delete', {
-    currentId:currentID.value,
-    id:id,
+    currentId: currentID.value,
+    id: id,
   });
   if (res?.code === 0) {
     Toast.success('操作成功');
+    router.push({
+      path: '/team',
+      query: {
+        id,
+      }
+    })
   } else {
     Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
   }
@@ -212,15 +219,17 @@ const doDeleteTeam = async (id: number) => {
 .van-card__thumb img {
   margin: 100px;
 }
-  .goods-card {
-    margin: 0;
-    background-color: @white;
-  }
 
-  .lr_btn {
-    height: 100%;
-  }
-  .sp_font{
-    font-weight: 500;
-  }
+.goods-card {
+  margin: 0;
+  background-color: @white;
+}
+
+.lr_btn {
+  height: 100%;
+}
+
+.sp_font {
+  font-weight: 500;
+}
 </style>

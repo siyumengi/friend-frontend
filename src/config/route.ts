@@ -17,6 +17,11 @@ import UserRegisterPage from "../pages/RegisterPage.vue";
 import UserEidTagPage from "../pages/UserTagPage.vue";
 import ForgetPage from "../pages/ForgetPage.vue";
 import PostPage from "../pages/PostPage.vue";
+import PostAddPage from "../pages/PostAddPage.vue";
+import PostInfo from "../pages/PostInfo.vue";
+import UserPostCreatePage from "../pages/UserPostCreatePage.vue";
+import PostUpdatePage from "../pages/PostUpdatePage.vue";
+import {useRouter} from "vue-router";
 
 /**meta:{navShow :true}是否是一级页面 */
 const routes = [
@@ -37,9 +42,14 @@ const routes = [
     {path: '/user/team/create', title: '创建队伍', component: UserTeamCreatePage},
     {path: '/user/team/users', title: '队员列表', component: JoinUsersPage},
     {path: '/user/edit/tag', title: '编辑标签', component: UserEidTagPage},
-    {path: '/post', title: '看文章', component: PostPage, meta: {navShow: true, tabbarShow: true}},
+    {path: '/post', title: '看帖子', component: PostPage, meta: {navShow: true, tabbarShow: true}},
+    {path: '/post/add', title: '发表帖子', component: PostAddPage},
+    {path: '/post/info', title: '查看帖子', component: PostInfo},
+    {path: '/user/post/create', title: '发布帖子', component: UserPostCreatePage},
+    {path: '/post/update', title: '发布帖子', component: PostUpdatePage},
 
 
 ]
+
 
 export default routes;

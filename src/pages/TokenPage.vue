@@ -77,7 +77,7 @@ const doSearchResult = () => {
     // Get.value.push(parse.message);
     let querySelector = document.querySelector("#Content");
     let img = document.createElement("img");
-    img.src = user.avatarUrl;
+    img.src = user.avatar;
     img.style.width = "50px";
     img.style.height = "50px";
     img.style.marginTop = "5%";

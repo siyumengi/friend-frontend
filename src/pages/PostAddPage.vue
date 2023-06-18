@@ -3,66 +3,26 @@
     <van-form @submit="onSubmit">
       <van-cell-group inset>
 
-        <van-field name="uploader" label="头像:">
+        <van-field name="uploader" label="图片:">
           <template #input>
             <van-uploader v-model="fileList" multiple :before-read="beforeRead" :after-read="afterRead"/>
           </template>
         </van-field>
 
         <van-field
-            v-model="addTeamData.name"
+            v-model="addPostData.title"
             name="name"
-            label="队伍名:"
-            placeholder="请输入队伍名"
-            :rules="[{ required: true, message: '请输入队伍名称' }]"
+            label="帖子标题:"
+            placeholder="请输入标题"
+            :rules="[{ required: true, message: '请输入标题' }]"
         />
         <van-field
-            v-model="addTeamData.description"
+            v-model="addPostData.content"
             rows="4"
             autosize
-            label="队伍描述:"
+            label="帖子描述:"
             type="textarea"
-            placeholder="请输入队伍描述"
-        />
-        <van-field
-            is-link
-            readonly
-            name="datetimePicker"
-            label="过期时间:"
-            :placeholder="addTeamData.expireTime ?? '点击选择过期时间'"
-            @click="showPicker = true"
-        />
-        <van-popup v-model:show="showPicker" position="bottom">
-          <van-datetime-picker
-              v-model="addTeamData.expireTime"
-              @confirm="showPicker = false"
-              type="datetime"
-              title="请选择过期时间"
-              :min-date="minDate"
-          />
-        </van-popup>
-        <van-field name="stepper" label="最大人数:">
-          <template #input>
-            <van-stepper v-model="addTeamData.maxNum" max="10" min="3" disable-input/>
-          </template>
-        </van-field>
-        <van-field name="radio" label="队伍状态:">
-          <template #input>
-            <van-radio-group v-model="addTeamData.status" direction="horizontal">
-              <van-radio name="0">公开</van-radio>
-              <van-radio name="1">私有</van-radio>
-              <van-radio name="2">加密</van-radio>
-            </van-radio-group>
-          </template>
-        </van-field>
-        <van-field
-            v-if="Number(addTeamData.status) === 2"
-            v-model="addTeamData.password"
-            type="password"
-            name="password"
-            label="密码:"
-            placeholder="请输入队伍密码"
-            :rules="[{ required: true, message: '请填写密码' }]"
+            placeholder="请输入内容"
         />
       </van-cell-group>
       <div style="margin: 16px;">
@@ -86,19 +46,17 @@ const router = useRouter();
 // 展示日期选择器
 const showPicker = ref(false);
 const initFormData = {
-  "avatarUrl": "",
-  "name": "",
-  "description": "",
-  "expireTime": null,
-  "maxNum": 3,
-  "password": "",
-  "status": "0",
+  "title": "",
+  "content": "",
+  "postTime": "",
+  "imageUrl": "",
+
 }
 
-const minDate = new Date();
+const now = new Date();
 
 // 需要用户填写的表单数据
-const addTeamData = ref({...initFormData})
+const addPostData = ref({...initFormData})
 
 const fileList = ref([]);
 const beforeRead = (file: any) => {
@@ -125,30 +83,27 @@ const afterRead = (file: any) => {
     });
   };
   ImgUploadFile(file.file)
-  addTeamData.value.avatarUrl = "http://rw8frd8c7.bkt.clouddn.com/" + file.file.name;
+  addPostData.value.imageUrl = "http://rw8frd8c7.bkt.clouddn.com/" + file.file.name;
 }
 // 提交
 const onSubmit = async () => {
   const postData = {
     currentId: currentID.value,
-    ...addTeamData.value,
-    status: Number(addTeamData.value.status)
+    ...addPostData.value,
   }
   // todo 前端参数校验
-  if (addTeamData.value.avatarUrl!==""){
-    const res = await myAxios.post("/team/add", postData);
+
+    const res = await myAxios.post("/post/add", postData);
     if (res?.code === 0 && res.data) {
       Toast.success('添加成功');
       router.push({
-        path: '/team',
+        path: '/post',
         replace: true,
       });
     } else {
       Toast.fail('添加失败');
     }
-  }else {
-    Toast.fail('请上传头像!');
-  }
+
 
 }
 </script>

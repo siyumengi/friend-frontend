@@ -2,6 +2,7 @@
   <template v-if="user">
     <van-cell title="当前用户" :value="user?.username"/>
     <van-cell title="修改信息" is-link to="/user/update"/>
+    <van-cell title= "我发布的帖子" is-link to="/user/post/create"/>
     <van-cell title="我创建的队伍" is-link to="/user/team/create"/>
     <van-cell title="我加入的队伍" is-link to="/user/team/join"/>
   </template>
@@ -15,7 +16,6 @@ import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
 import myAxios from "../config/myAxios";
 import {Toast} from "vant";
-import {getCurrentUserState} from "../states/user";
 import {currentID} from "../states/currentID";
 
 
